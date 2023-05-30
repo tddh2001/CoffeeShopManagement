@@ -3,15 +3,10 @@ package com.cfm.coffeemanagement.service;
 import com.cfm.coffeemanagement.constants.Constants;
 import com.cfm.coffeemanagement.filter.JWTAuthFilter;
 import com.cfm.coffeemanagement.model.db.User;
-import com.cfm.coffeemanagement.model.request.ChangePasswordRequest;
-import com.cfm.coffeemanagement.model.request.ForgotPasswordRequest;
-import com.cfm.coffeemanagement.model.request.SignInRequest;
-import com.cfm.coffeemanagement.model.request.SignUpRequest;
-import com.cfm.coffeemanagement.model.response.ActiveResponse;
-import com.cfm.coffeemanagement.model.response.SignInResponse;
-import com.cfm.coffeemanagement.model.response.SignUpResponse;
-import com.cfm.coffeemanagement.model.response.UserResponse;
+import com.cfm.coffeemanagement.model.request.*;
+import com.cfm.coffeemanagement.model.response.*;
 import com.cfm.coffeemanagement.repository.UserRepository;
+import com.cfm.coffeemanagement.utils.EmailValidation;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -20,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -49,6 +45,7 @@ public class UserService {
         SignUpResponse response = new SignUpResponse();
         try {
             request.validate();
+            EmailValidation.validate(request.getEmail());
         } catch (IllegalArgumentException e) {
             response.setMessage(e.getMessage());
             return response;
@@ -191,5 +188,23 @@ public class UserService {
             randomChars[i] = characters.charAt(index);
         }
         return new String(randomChars);
+    }
+
+    public List<User> getAllUser() {
+        return userRepository.findAll();
+    }
+
+    public UpdateEmailResponse updateEmail(UpdateEmailRequest request) {
+        UpdateEmailResponse response = new UpdateEmailResponse();
+        EmailValidation.validate(request.getEmail());
+
+        Optional<User> userOpt = userRepository.findByName(jwtAuthFilter.getCurrentUser());
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            user.setEmail(request.getEmail());
+            userRepository.save(user);
+            response.setMessage(EMAIL_UPDATED_SUCCESSFULLY);
+        }
+        return response;
     }
 }

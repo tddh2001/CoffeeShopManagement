@@ -26,11 +26,15 @@ public class Constants {
     public static final String SUBJECT_FORGOT_PASSWORD = "FORGOT_PASSWORD";
     public static final String TEXT_BODY_USER_ACTIVE = "Click here to activate your account: ";
     public static final String TEXT_BODY_FORGOT_PASSWORD = "Your new password is: ";
-    public static final String API_ACTIVE = "http://localhost:8080/api/user/active/";
+    public static final String API_ACTIVE = "http://localhost:8080/api/authentication/active/";
     public static final String CHANGE_PASSWORD_SUCCESS = "CHANGE_PASSWORD_SUCCESS";
     public static final String NEW_PASSWORD_MUST_BE_DIFFERENT_OLD_PASSWORD = "NEW_PASSWORD_MUST_BE_DIFFERENT_OLD_PASSWORD";
     public static final String PLEASE_CHECK_YOUR_MAIL = "PLEASE_CHECK_YOUR_MAIL";
     public static final String EMAIL_NOT_FOUND = "EMAIL_NOT_FOUND";
+    public static final String CATEGORY_ADDED_SUCCESSFULLY = "CATEGORY_ADDED_SUCCESSFULLY";
+    public static final String INCORRECT_EMAIL_FORMAT = "INCORRECT_EMAIL_FORMAT";
+    public static final String EMAIL_UPDATED_SUCCESSFULLY = "EMAIL_UPDATED_SUCCESSFULLY";
+    public static final String CATEGORY_UPDATED_SUCCESSFULLY = "CATEGORY_UPDATED_SUCCESSFULLY";
 
     private Constants() {}
 }
